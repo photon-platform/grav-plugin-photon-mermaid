@@ -8,9 +8,9 @@
 .node circle,
 .node ellipse,
 .node polygon {
-  fill: #ECECFF;
-  stroke: #CCCCFF;
-  stroke-width: 1px;
+  /* fill: #ECECFF; */
+  /* stroke: #CCCCFF; */
+  /* stroke-width: 1px; */
 }
 .edgePath .path {
   stroke: #333333;
@@ -259,7 +259,8 @@ text.actor {
   font-size: 14px;
 }
 div.mermaidTooltip {
-  position: absolute;
+  position: relative;
+  bottom: 0;
   text-align: center;
   max-width: 200px;
   padding: 2px;

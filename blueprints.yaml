@@ -1,8 +1,8 @@
-name: Diagrams
+name: photon Mermaid
 version: 1.0.3
-description: "This plugin allows to easily create amazing and powerful diagrams in Markdown"
+description: add Mermaid diagrams to photon - fork from grav-plugins-diagrams
 icon: edit
-author:
+original_author:
   name: Aurélien Wolz
   email: wolzaurelien@gmail.com
   url: http://wolzaurelien.com
