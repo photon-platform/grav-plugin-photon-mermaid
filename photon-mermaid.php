@@ -47,7 +47,7 @@ class PhotonMermaidPlugin extends Plugin
                 $search_mermaid = str_replace("[/mermaid]", "", $search_mermaid);
 
                 // Creating the replacement structure
-                $replace_header = "# References\n\n<div class=\"mermaid\" style=\"text-align:".$this->align."\">";
+                $replace_header = "<div class=\"mermaid\" style=\"text-align:".$this->align."\">";
                 $replace_footer = "</div>";
                 $replace_content = $search_mermaid;
                 $replace = "$replace_header" . "$replace_content" . "$replace_footer";
@@ -56,6 +56,29 @@ class PhotonMermaidPlugin extends Plugin
             };
 
             $raw = $this->parseInjectMermaid($raw, $match_mermaid);
+
+            /*****************************
+             * REFERENCES PART
+             */
+
+            $match_references = function ($matches) use (&$page, &$twig, &$config) {
+                // Get the matching content
+                $search_references = $matches[0];
+
+                // Remove the tab selector
+                $search_references = str_replace("[references]", "", $search_references);
+                $search_references = str_replace("[/references]", "", $search_references);
+
+                // Creating the replacement structure
+                $replace_header = "## References\n<div class=\"mermaid\" style=\"text-align:".$this->align."\">";
+                $replace_footer = "</div>";
+                $replace_content = $search_references;
+                $replace = "$replace_header" . "$replace_content" . "$replace_footer";
+
+                return $replace;
+            };
+
+            $raw = $this->parseInjectReferences($raw, $match_references);
 
             /*****************************
              * APPLY CHANGES
@@ -72,6 +95,16 @@ class PhotonMermaidPlugin extends Plugin
     {
         // Regular Expression for selection
         $regex = '/\[mermaid\]([\s\S]*?)\[\/mermaid\]/';
+        return preg_replace_callback($regex, $function, $content);
+    }
+
+    /**
+     *  Applies a specific function to the result of the flow's regexp
+     */
+    protected function parseInjectReferences($content, $function)
+    {
+        // Regular Expression for selection
+        $regex = '/\[references\]([\s\S]*?)\[\/references\]/';
         return preg_replace_callback($regex, $function, $content);
     }
 

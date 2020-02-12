@@ -4,6 +4,9 @@
 .mermaid .label {
   color: #333;
 }
+.mermaid a{
+  font-weight: 400;
+}
 .node rect,
 .node circle,
 .node ellipse,
@@ -255,8 +258,8 @@ text.actor {
 
 */
 .node text {
-  font-family: 'trebuchet ms', verdana, arial;
-  font-size: 14px;
+  /* font-family: 'trebuchet ms', verdana, arial; */
+  /* font-size: 14px; */
 }
 div.mermaidTooltip {
   position: relative;
