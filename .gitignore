@@ -1,4 +1,5 @@
-#------- MAC OS
-.DS_Store
 tags
 node_modules
+*.swp
+.*.swp
+

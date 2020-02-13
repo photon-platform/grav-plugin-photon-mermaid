@@ -128,14 +128,23 @@ class PhotonMermaidPlugin extends Plugin
         $this->grav['assets']->addCss('plugin://photon-mermaid/css/mermaid.css');
 
         // Used to start the conversion of the div "diagram" when the page is loaded
-        $init = "$(document).ready(function() {
-                    mermaid.initialize({startOnLoad:true});
-                    mermaid.ganttConfig = {
-                      axisFormatter: [[\"".$this->gantt_axis."\", function (d){return d.getDay() == 1;}]]
-                    };
+        $init = "
+$(document).ready(function() {
+  var config = {
+    startOnLoad:true,
+    flowchart:{
+      useMaxWidth:true,
+      htmlLabels:false,
+    },
+    theme:null,
+  }
+  mermaid.initialize(config);
+  mermaid.ganttConfig = {
+    axisFormatter: [[\"".$this->gantt_axis."\", function (d){return d.getDay() == 1;}]]
+  };
 
 
-                 });";
+});";
         $this->grav['assets']->addInlineJs($init);
     }
 }
