@@ -113,38 +113,51 @@ class PhotonMermaidPlugin extends Plugin
      */
     public function onTwigSiteVariables()
     {
-        // Variables
-        $this->theme = $this->config->get('plugins.photon-mermaid.theme');
-        $this->font_size = $this->config->get('plugins.photon-mermaid.font.size');
-        $this->font_color = $this->config->get('plugins.photon-mermaid.font.color');
-        $this->line_color = $this->config->get('plugins.photon-mermaid.line.color');
-        $this->element_color = $this->config->get('plugins.photon-mermaid.line.color');
-        $this->condition_yes = $this->config->get('plugins.photon-mermaid.condition.yes');
-        $this->condition_no = $this->config->get('plugins.photon-mermaid.condition.no');
-        $this->gantt_axis = $this->config->get('plugins.photon-mermaid.gantt.axis');
+        $page = $this->grav['page'];
+        $assets = $this->grav['assets'];
 
-        // Resources for the conversion
-        $this->grav['assets']->addJs('plugin://photon-mermaid/js/mermaid.min.js');
-        $this->grav['assets']->addCss('plugin://photon-mermaid/css/mermaid.css');
+        // Variables
+
+
+        // only load the vars if this datatype page
+        if ($page->header->mermaid == true )
+        {
+          $this->theme = $this->config->get('plugins.photon-mermaid.theme');
+          $this->font_size = $this->config->get('plugins.photon-mermaid.font.size');
+          $this->font_color = $this->config->get('plugins.photon-mermaid.font.color');
+          $this->line_color = $this->config->get('plugins.photon-mermaid.line.color');
+          $this->element_color = $this->config->get('plugins.photon-mermaid.line.color');
+          $this->condition_yes = $this->config->get('plugins.photon-mermaid.condition.yes');
+          $this->condition_no = $this->config->get('plugins.photon-mermaid.condition.no');
+          $this->gantt_axis = $this->config->get('plugins.photon-mermaid.gantt.axis');
+          //
+          // Resources for the conversion
+          $assets->addJs('plugin://photon-mermaid/js/mermaid.min.js');
+          $assets->addCss('plugin://photon-mermaid/css/mermaid.css');
+
+          // $css = 'plugin://photon-organization/assets/organization.css';
+          // $assets->addCss($css, 30, 'pipeline', 'photon-plugin' );
+          // $js = 'plugin://photon-organization/assets/organization.js';
+          // $assets->addDeferJs($js, 30, false, 'photon-plugin' );
+        }
 
         // Used to start the conversion of the div "diagram" when the page is loaded
         $init = "
-$(document).ready(function() {
-  var config = {
-    startOnLoad:true,
-    flowchart:{
-      useMaxWidth:true,
-      htmlLabels:false,
-    },
-    theme:null,
-  }
-  mermaid.initialize(config);
-  mermaid.ganttConfig = {
-    axisFormatter: [[\"".$this->gantt_axis."\", function (d){return d.getDay() == 1;}]]
-  };
-
-
-});";
+      // mermaid init
+      $(document).ready(function() {
+        var config = {
+          startOnLoad:true,
+          flowchart:{
+            useMaxWidth:true,
+            htmlLabels:false,
+          },
+          theme:null,
+        }
+        mermaid.initialize(config);
+        mermaid.ganttConfig = {
+          axisFormatter: [[\"".$this->gantt_axis."\", function (d){return d.getDay() == 1;}]]
+        };
+      });";
         $this->grav['assets']->addInlineJs($init);
     }
 }
