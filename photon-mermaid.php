@@ -120,7 +120,10 @@ class PhotonMermaidPlugin extends Plugin
 
 
         // only load the vars if this datatype page
-        if ($page->header->mermaid == true )
+        $header = $page->header();
+        $mermaid = isset($header->mermaid) ? $header->mermaid : false;
+
+        if ( $mermaid )
         {
           $this->theme = $this->config->get('plugins.photon-mermaid.theme');
           $this->font_size = $this->config->get('plugins.photon-mermaid.font.size');
@@ -133,31 +136,33 @@ class PhotonMermaidPlugin extends Plugin
           //
           // Resources for the conversion
           $assets->addJs('plugin://photon-mermaid/js/mermaid.min.js');
+
           $assets->addCss('plugin://photon-mermaid/css/mermaid.css');
 
-          // $css = 'plugin://photon-organization/assets/organization.css';
+          $css = 'plugin://photon-mermaid/css/mermaid.css';
           // $assets->addCss($css, 30, 'pipeline', 'photon-plugin' );
-          // $js = 'plugin://photon-organization/assets/organization.js';
+          $js = 'plugin://photon-organization/assets/organization.js';
           // $assets->addDeferJs($js, 30, false, 'photon-plugin' );
+
+          // Used to start the conversion of the div "diagram" when the page is loaded
+          $init = "
+        // mermaid init
+        $(document).ready(function() {
+          var config = {
+            startOnLoad:true,
+            flowchart:{
+              useMaxWidth:true,
+              htmlLabels:false,
+            },
+            theme:null,
+          }
+          mermaid.initialize(config);
+          mermaid.ganttConfig = {
+            axisFormatter: [[\"".$this->gantt_axis."\", function (d){return d.getDay() == 1;}]]
+          };
+        });";
+          $this->grav['assets']->addInlineJs($init);
         }
 
-        // Used to start the conversion of the div "diagram" when the page is loaded
-        $init = "
-      // mermaid init
-      $(document).ready(function() {
-        var config = {
-          startOnLoad:true,
-          flowchart:{
-            useMaxWidth:true,
-            htmlLabels:false,
-          },
-          theme:null,
-        }
-        mermaid.initialize(config);
-        mermaid.ganttConfig = {
-          axisFormatter: [[\"".$this->gantt_axis."\", function (d){return d.getDay() == 1;}]]
-        };
-      });";
-        $this->grav['assets']->addInlineJs($init);
     }
 }
