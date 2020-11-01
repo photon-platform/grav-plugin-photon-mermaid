@@ -1,11 +1,13 @@
 name: photon ✴ Mermaid
 version: 1.0.3
 description: add Mermaid diagrams to photon - fork from grav-plugins-diagrams
-icon: edit
 original_author:
   name: Aurélien Wolz
   email: wolzaurelien@gmail.com
   url: http://wolzaurelien.com
+homepage: https://github.com/photon-platform/grav-plugin-photon-mermaid
+
+icon: edit
 license: MIT
 
 form:
