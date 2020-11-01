@@ -29,7 +29,7 @@ Before configuring this plugin, you should copy the `user/plugins/photon-mermaid
 
 Here is the default configuration and an explanation of available options:
 
-```
+```yaml
 # General settings
 # ****************
 
