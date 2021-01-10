@@ -116,9 +116,6 @@ class PhotonMermaidPlugin extends Plugin
         $page = $this->grav['page'];
         $assets = $this->grav['assets'];
 
-        // Variables
-
-
         // only load the vars if this datatype page
         $header = $page->header();
         $mermaid = isset($header->mermaid) ? $header->mermaid : false;
@@ -133,16 +130,10 @@ class PhotonMermaidPlugin extends Plugin
           $this->condition_yes = $this->config->get('plugins.photon-mermaid.condition.yes');
           $this->condition_no = $this->config->get('plugins.photon-mermaid.condition.no');
           $this->gantt_axis = $this->config->get('plugins.photon-mermaid.gantt.axis');
-          //
+
           // Resources for the conversion
           $assets->addJs('plugin://photon-mermaid/js/mermaid.min.js');
-
           $assets->addCss('plugin://photon-mermaid/css/mermaid.css');
-
-          $css = 'plugin://photon-mermaid/css/mermaid.css';
-          // $assets->addCss($css, 30, 'pipeline', 'photon-plugin' );
-          $js = 'plugin://photon-organization/assets/organization.js';
-          // $assets->addDeferJs($js, 30, false, 'photon-plugin' );
 
           // Used to start the conversion of the div "diagram" when the page is loaded
           $init = "
@@ -161,7 +152,7 @@ class PhotonMermaidPlugin extends Plugin
             axisFormatter: [[\"".$this->gantt_axis."\", function (d){return d.getDay() == 1;}]]
           };
         });";
-          $this->grav['assets']->addInlineJs($init);
+          $assets->addInlineJs($init);
         }
 
     }
